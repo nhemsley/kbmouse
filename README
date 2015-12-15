@@ -1,0 +1,66 @@
+
+ * Virtual Mouse 1.0.0 by Alessandro Pira - http://www.alessandropira.org/ *
+
+ * WHAT IS VIRTUAL MOUSE? *
+
+Virtual mouse is a kernel module that allows you to control a virtual mouse
+device with your keboard.
+
+ * INSTALLATION *
+
+Virtual mouse has been written and tested against 3.3.6 linux kernel.
+It *should* work well on any 3.* kernel.
+
+You need kernel headers in order to compile the module.
+After unpacking the archive (you probably already did this, since you are
+reading this file) enter the vmouse folder and type:
+
+ make
+
+and vmouse.ko will be built.
+To install the module run as root:
+
+ insmod vmouse.ko
+
+ * DEFAULT KEYS *
+
+When the left CTRL is pressed you can use your keypad to control your
+mouse. "1" is down-left, "2" is down, "3" is down-right, "4" is left, and
+so on. "0" is your right button, and "." is your left button.
+
+ * LICENSE *
+
+Virtual Mouse is under GNU/GPL license. You should find a copy of the
+license in the "COPYRIGHT" file.
+
+ * FINE TUNING *
+
+All the things you can tune are defined in the file vmouse.h.
+Basically you can change keys and cursor speed.
+After modifying the vmouse.h file you need to rebuild ("make") the module.
+
+
+To change keys you can edit the scancodes defines.
+
+To get the scancodes from your keyboard you can use the "evbug" linux
+module, just install it:
+
+ modprobe evbug
+
+and watch your kernel log output as you type keys, for example assuming
+your syslog is sending kernel messages to /var/log/kern.log:
+
+ tail -f /var/log/kern.log | grep "Type: 1,"
+
+The scancode you are looking for is listed in the Code entry of the log:
+
+[...] evbug.c: Event. Dev: input3, Type: 1, Code: 29, Value: 1
+                                                  ^^
+In this example, 29 (0x1D hexadecimal) is the Left CTRL scancode.
+
+
+STEP is the dimension of the move corresponding to the first pression of a
+key, while STEP+MAX_ACCEL is a measure of the maximum speed you can obtain
+by holding down keys.
+
+
